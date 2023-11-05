@@ -1,12 +1,13 @@
 <div class="container">
     <div class="row py-4 justify-content-center">
         <div class="col-md-6 col-12">
-            <input class="form-control" [formControl]="searchControl" placeholder="Search GitHub users" />
+            <input class="form-control border border-1 border-dark" [formControl]="searchControl"
+                placeholder="Search GitHub users" />
         </div>
     </div>
     <div class="row row-cols-md-4 row-cols-sm-2 row-cols-1">
         <div *ngFor="let user of (users$ | async)" class="col mb-4">
-            <div class="card border-0 shadow">
+            <div class="card border border-2 border-dark">
                 <div class="zoom-on-hover">
                     <img [src]="user.avatar_url" class="card-img-top object-fit-cover" alt="...">
                 </div>
@@ -14,7 +15,8 @@
                     <h5 class="card-title mb-3 fw-bold ">{{ user.login }}</h5>
                     <h6 class="card-subtitle mb-3 "> Account Type:<span class="mx-1 text-muted fw-semibold">{{ user.type
                             }} </span> </h6>
-                    <a role="button" class="btn btn-success text-white w-50" href="{{user.repos_url}}">GitHub </a>
+                    <a role="button" class="btn btn-success text-white w-50 rounded rounded-5 py-2"
+                        href="{{user.repos_url}}"><i class="fa-brands fa-github me-1"></i> GitHub </a>
                 </div>
             </div>
         </div>
