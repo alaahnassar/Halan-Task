@@ -6,6 +6,10 @@ import { AppComponent } from './app.component';
 import { GithupAppComponent } from './githup-app/githup-app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { UserEffects } from './core/store/effects/user.effects';
+import { reducer } from './core/store/reducers/user.reducer';
 
 @NgModule({
   declarations: [AppComponent, GithupAppComponent],
@@ -15,6 +19,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    StoreModule.forRoot({ user: reducer }),
+    EffectsModule.forRoot([UserEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -7,6 +7,12 @@ import {
   switchMap,
   catchError,
 } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { loadUsers, updateQuery } from '../core/store/actions/user.action';
+import {
+  selectUsers,
+  selectError,
+} from '../core/store/selectors/user.selector';
 
 @Component({
   selector: 'app-githup-app',
@@ -14,49 +20,64 @@ import {
   styleUrls: ['./githup-app.component.scss'],
 })
 export class GithupAppComponent {
-  users: any[] = [];
-  error!: string | null;
+  users$ = this.store.select(selectUsers); // Select the users observable
+  error$ = this.store.select(selectError); // Select the error observable
   searchControl = new FormControl();
-  constructor(private githubService: GithubService) {}
+
+  constructor(private store: Store) {}
 
   ngOnInit() {
-    // get all users
-    this.githubService.getAllUsers().subscribe({
-      next: (users) => {
-        this.users = users;
-        this.error = null;
-      },
-      error: (error) => {
-        this.error = 'Error loading users. Please try again later.';
-      },
-    });
-    // search if there is query
+    this.store.dispatch(loadUsers());
+
     this.searchControl.valueChanges
-      .pipe(
-        debounceTime(300),
-        distinctUntilChanged(),
-        switchMap((query) => {
-          if (query) {
-            return this.githubService.searchUsers(query).pipe(
-              catchError((error) => {
-                this.error =
-                  'Error search loading users. Please try again later.';
-                return [];
-              })
-            );
-          } else {
-            return this.githubService.getAllUsers().pipe(
-              catchError((error) => {
-                this.error = 'Error loading users. Please try again later.';
-                return [];
-              })
-            );
-          }
-        })
-      )
-      .subscribe((users) => {
-        this.users = users;
-        this.error = null;
+      .pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe((query) => {
+        this.store.dispatch(updateQuery({ query }));
       });
   }
 }
+
+// users: any[] = [];
+// error!: string | null;
+// constructor(private githubService: GithubService) {}
+
+// ngOnInit() {
+//   // get all users
+//   this.githubService.getAllUsers().subscribe({
+//     next: (users) => {
+//       this.users = users;
+//       this.error = null;
+//     },
+//     error: (error) => {
+//       this.error = 'Error loading users. Please try again later.';
+//     },
+//   });
+//   // search if there is query
+//   this.searchControl.valueChanges
+//     .pipe(
+//       debounceTime(300),
+//       distinctUntilChanged(),
+//       switchMap((query) => {
+//         if (query) {
+//           return this.githubService.searchUsers(query).pipe(
+//             catchError((error) => {
+//               this.error =
+//                 'Error search loading users. Please try again later.';
+//               return [];
+//             })
+//           );
+//         } else {
+//           return this.githubService.getAllUsers().pipe(
+//             catchError((error) => {
+//               this.error = 'Error loading users. Please try again later.';
+//               return [];
+//             })
+//           );
+//         }
+//       })
+//     )
+//     .subscribe((users) => {
+//       this.users = users;
+//       this.error = null;
+//     });
+// }

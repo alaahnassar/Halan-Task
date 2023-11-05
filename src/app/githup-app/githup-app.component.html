@@ -5,7 +5,7 @@
         </div>
     </div>
     <div class="row row-cols-md-4 row-cols-sm-2 row-cols-1">
-        <div *ngFor="let user of users" class="col mb-3">
+        <div *ngFor="let user of (users$ | async)" class="col mb-3">
             <div class="card">
                 <img [src]="user.avatar_url" class="card-img-top" alt="...">
                 <div class="card-body">
@@ -16,5 +16,5 @@
             </div>
         </div>
     </div>
-    <div *ngIf="error" class="error-message">{{ error }}</div>
+    <div *ngIf="(error$ | async) as err" class="error-message">{{ err }}</div>
 </div>
