@@ -20,8 +20,8 @@ import {
   styleUrls: ['./githup-app.component.scss'],
 })
 export class GithupAppComponent {
-  users$ = this.store.select(selectUsers); // Select the users observable
-  error$ = this.store.select(selectError); // Select the error observable
+  users$ = this.store.select(selectUsers);
+  error$ = this.store.select(selectError);
   searchControl = new FormControl();
 
   constructor(private store: Store) {}
