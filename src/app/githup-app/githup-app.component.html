@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row py-3 justify-content-center">
-        <div class="col-6">
+        <div class="col-md-6 col-12">
             <input class="form-control" [formControl]="searchControl" placeholder="Search GitHub users" />
         </div>
     </div>
@@ -9,7 +9,7 @@
             <div class="card">
                 <img [src]="user.avatar_url" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title">{{ user.login }}</h5>
+                    <h5 class="card-title mb-2">{{ user.login }}</h5>
                     <h6 class="card-subtitle mb-2 ">Type: {{ user.type }}</h6>
 
                 </div>

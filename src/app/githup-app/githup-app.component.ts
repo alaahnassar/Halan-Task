@@ -20,16 +20,17 @@ export class GithupAppComponent {
   constructor(private githubService: GithubService) {}
 
   ngOnInit() {
-    this.githubService.getAllUsers().subscribe(
-      (users) => {
+    // get all users
+    this.githubService.getAllUsers().subscribe({
+      next: (users) => {
         this.users = users;
         this.error = null;
       },
-      (error) => {
+      error: (error) => {
         this.error = 'Error loading users. Please try again later.';
-      }
-    );
-
+      },
+    });
+    // search if there is query
     this.searchControl.valueChanges
       .pipe(
         debounceTime(300),
